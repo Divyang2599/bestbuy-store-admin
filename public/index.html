@@ -167,8 +167,8 @@
 </div>
 
 <script>
-  const ORDER_API   = window.ORDER_SERVICE_URL   || 'http://40.82.185.126:31432';
-  const PRODUCT_API = window.PRODUCT_SERVICE_URL || 'http://40.82.185.126:30113';
+  const ORDER_API   = '';
+  const PRODUCT_API = '';
 
   function showMessage(text, type) {
     const el = document.getElementById('message');
@@ -180,7 +180,7 @@
   // ── Orders ──────────────────────────────────────────────
   async function loadOrders() {
     try {
-      const res = await fetch(`${ORDER_API}/orders`);
+      const res = await fetch(`/api/orders`);
       const orders = await res.json();
 
       document.getElementById('totalOrders').textContent = orders.length;
@@ -216,7 +216,7 @@
   }
 
   async function updateStatus(id, status) {
-    await fetch(`${ORDER_API}/orders/${id}/status`, {
+    await fetch(`/api/orders/${id}/status`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })
@@ -228,7 +228,7 @@
   // ── Products ─────────────────────────────────────────────
   async function loadProducts() {
     try {
-      const res = await fetch(`${PRODUCT_API}/products`);
+      const res = await fetch(`/api/products`);
       const products = await res.json();
 
       document.getElementById('totalProducts').textContent = products.length;
@@ -259,7 +259,7 @@
 
     if (!name || !price) { showMessage('Name and price are required', 'error'); return; }
 
-    await fetch(`${PRODUCT_API}/products`, {
+    await fetch(`/api/products`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, price, description, stock })
@@ -275,7 +275,7 @@
 
   async function deleteProduct(id) {
     if (!confirm('Delete this product?')) return;
-    await fetch(`${PRODUCT_API}/products/${id}`, { method: 'DELETE' });
+    await fetch(`/api/products/${id}`, { method: 'DELETE' });
     showMessage('Product deleted', 'success');
     loadProducts();
   }
